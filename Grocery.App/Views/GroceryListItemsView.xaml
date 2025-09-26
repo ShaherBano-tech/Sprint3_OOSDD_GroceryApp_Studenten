@@ -54,7 +54,19 @@
 
         <Border Grid.Row="1" Grid.Column="1" Stroke="#C49B33" StrokeThickness="4" Padding="5" Margin="5" HorizontalOptions="Center">
             <StackLayout>
-                <CollectionView ItemsSource="{Binding AvailableProducts}" Margin="5" WidthRequest="300" HorizontalOptions="Start"
+                <SearchBar
+                    x:Name="ProductSearchBar"
+                    Placeholder="Zoek product..."
+                    SearchCommand="{Binding SearchCommand}"
+                    SearchCommandParameter="{Binding Text, Source={x:Reference ProductSearchBar}}"/>
+                <Label Text="{Binding MyMessage}" 
+                       TextColor="Red" 
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center" 
+                       Margin="0,5,0,5"/>
+
+
+                <CollectionView ItemsSource="{Binding FilteredProducts}" Margin="5" WidthRequest="300" HorizontalOptions="Start"
                     SelectionMode="Single"
                     SelectionChangedCommand="{Binding AddProductCommand}"
                     SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}">
@@ -83,6 +95,5 @@
                 </CollectionView>
             </StackLayout>
         </Border>
-        <Label Grid.Row="0" Grid.Column="0" HorizontalOptions="Center" x:Name="Message" Text="{Binding MyMessage}" TextColor="Red" Margin="30,0,0,10"/>
     </Grid>
 </ContentPage>
