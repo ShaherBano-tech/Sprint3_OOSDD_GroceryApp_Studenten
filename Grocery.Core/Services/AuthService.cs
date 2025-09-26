@@ -18,5 +18,22 @@ namespace Grocery.Core.Services
             if (PasswordHelper.VerifyPassword(password, client.Password)) return client;
             return null;
         }
+
+        public bool Register(string email, string password)
+        {
+            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
+                return false;
+
+            if (_clientService.ExistsByEmail(email))
+                return false;
+
+            var namePart = email.Split('@')[0];
+            var DisplayName = string.IsNullOrWhiteSpace(namePart) ? "Nieuwe gebruiker" : namePart;
+            var hash = PasswordHelper.HashPassword(password);
+            var newClient = new Client(0, DisplayName, email, hash);
+
+            _clientService.Add(newClient);
+            return true;
+        }
     }
 }

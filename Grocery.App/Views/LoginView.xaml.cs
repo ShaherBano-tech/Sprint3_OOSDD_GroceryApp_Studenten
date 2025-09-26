@@ -9,4 +9,12 @@ public partial class LoginView : ContentPage
 		InitializeComponent();
 		BindingContext = viewModel;
 	}
+
+	private void OnQuickRegisterClicked(object sender, EventArgs e)
+	{
+		if (BindingContext is LoginViewModel vm)
+		{
+			vm.QuickRegisterFromUI();
+		}
+	}
 }
