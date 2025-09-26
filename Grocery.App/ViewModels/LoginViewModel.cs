@@ -26,6 +26,11 @@ namespace Grocery.App.ViewModels
             _global = global;
         }
 
+        internal void QuickRegisterFromUI()
+        {
+            throw new NotImplementedException();
+        }
+
         [RelayCommand]
         private void Login()
         {
@@ -40,6 +45,22 @@ namespace Grocery.App.ViewModels
             {
                 LoginMessage = "Ongeldige inloggegevens.";
             }
+        }
+
+        [RelayCommand]
+        private void QuickRegister()
+        {
+            if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Password))
+            {
+                LoginMessage = "Vul e-mail en wachtwoord in. ";
+                return;
+            }
+
+            var ok = _authService.Register(Email, Password);
+
+            LoginMessage = ok 
+                ? "Gebruiker aangemaakt. Log nu in. "
+                : "E-mailadres bestaat al of is ongeldig. ";
         }
     }
 }

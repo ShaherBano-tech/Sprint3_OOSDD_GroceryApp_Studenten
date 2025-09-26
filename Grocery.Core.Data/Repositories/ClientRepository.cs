@@ -1,6 +1,7 @@
 ﻿
 using Grocery.Core.Interfaces.Repositories;
 using Grocery.Core.Models;
+using System.Linq;
 
 namespace Grocery.Core.Data.Repositories
 {
@@ -32,6 +33,20 @@ namespace Grocery.Core.Data.Repositories
         public List<Client> GetAll()
         {
             return clientList;
+        }
+
+        public bool ExistsByEmail(string email)
+        {
+            return clientList.Any(c => c.EmailAddress.Equals(email, StringComparison.OrdinalIgnoreCase));
+        }
+
+        public Client Add(Client client)
+        {
+         var nextId = clientList.Any() ? clientList.Max(c => c.Id) + 1 : 1;
+         var name = string.IsNullOrWhiteSpace(client.Name) ? "Nieuwe gebruiker" : client.Name;
+         var toAdd = new Client(nextId, client.Name, client.EmailAddress, client.Password);
+         clientList.Add(toAdd);
+         return toAdd;
         }
     }
 }
